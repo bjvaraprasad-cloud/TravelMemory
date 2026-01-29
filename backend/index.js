@@ -1,21 +1,28 @@
-const express = require('express')
-const cors = require('cors')
-require('dotenv').config()
+// index.js
+const express = require('express');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
-const app = express()
-PORT = process.env.PORT
-const conn = require('./conn')
-app.use(express.json())
-app.use(cors())
+const app = express();
+app.use(express.json());
 
-const tripRoutes = require('./routes/trip.routes')
+// --- Add this root route ---
+app.get('/', (req, res) => {
+    res.send('TravelMemory Backend is running!');
+});
 
-app.use('/trip', tripRoutes) // http://localhost:3001/trip --> POST/GET/GET by ID
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(() => {
+    console.log('MongoDB connected');
+}).catch((err) => {
+    console.error('DB ERROR: ', err);
+});
 
-app.get('/hello', (req,res)=>{
-    res.send('Hello World!')
-})
-
-app.listen(PORT, ()=>{
-    console.log(`Server started at http://localhost:${PORT}`)
-})
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server started at http://localhost:${PORT}`);
+});
