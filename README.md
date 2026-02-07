@@ -1,4 +1,6 @@
 # Travel Memory
+This project demonstrates deployment of a MERN stack application on AWS EC2
+with Nginx, PM2, Load Balancer, and Cloudflare.
 
 `.env` file to work with the backend after creating a database in mongodb: 
 
